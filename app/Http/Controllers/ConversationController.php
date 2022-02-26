@@ -18,10 +18,16 @@ class ConversationController extends Controller
      */
     public function index()
     {
-        $conversations = Conversation::orderBy('created_at', 'desc')->first();
-        $messages = messages::get();
         
-        return view('messages.index', compact('conversations' , 'messages'));
+       
+         $conversation = Conversation::where('sender_id', auth()->user()->id)->orWhere('receiver_id', auth()->user()->id)->orderBy('created_at', 'desc')->paginate(5);
+        return view('messages.index', compact('conversation'));
+        
+        
+//         $conversations = Conversation::orderBy('created_at', 'desc')->first();
+//         $messages = messages::get();
+        
+//         return view('messages.index', compact('conversations' , 'messages'));
 
     }
 
